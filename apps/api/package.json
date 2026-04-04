@@ -2,9 +2,10 @@
   "name": "@hippo/api",
   "type": "module",
   "scripts": {
-    "dev": "tsx watch src/index.ts",
     "build": "tsc",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "dev": "tsx watch --env-file=.env src/index.ts",
+    "debug": "tsx --inspect=9229 --env-file=.env src/main.ts"
   },
   "dependencies": {
     "@hono/node-server": "^1.19.12",
