@@ -1,18 +1,23 @@
 {
   "name": "hippo",
+  "type": "module",
   "version": "1.0.0",
   "description": "ticket system",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
   "author": "Milad Soltani",
   "license": "ISC",
-  "type": "module",
+  "keywords": [],
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint",
+    "lint:fix": "eslint --fix"
+  },
   "workspaces": [
     "apps/api",
     "apps/web",
     "packages/shared"
-  ]
+  ],
+  "devDependencies": {
+    "@antfu/eslint-config": "^8.0.0",
+    "eslint": "^10.2.0"
+  }
 }
