@@ -10,7 +10,11 @@
   "scripts": {
     "lint": "eslint",
     "lint:fix": "eslint --fix",
-    "prepare": "husky"
+    "prepare": "husky",
+    "generate": "cd ./apps/api && npx drizzle-kit generate",
+    "migrate": "cd ./apps/api && npx drizzle-kit migrate",
+    "push": "cd ./apps/api && npx drizzle-kit push",
+    "studio": "cd ./apps/api && npx drizzle-kit studio"
   },
   "workspaces": [
     "apps/api",
