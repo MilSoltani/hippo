@@ -2,7 +2,7 @@
   "name": "@hippo/api",
   "type": "module",
   "exports": {
-    "./clients": "./src/clients.ts"
+    ".": "./src/exports.ts"
   },
   "scripts": {
     "build": "tsc",

@@ -9,4 +9,4 @@ export const userHandler = createUserHandler(userService)
 
 export type { UserHandler } from './user.handler'
 export type { UserService } from './user.service'
-export * from './users.schema'
+export * as UserSchemas from './users.schema'

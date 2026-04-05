@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { UserHandler } from '@hippo/api/clients'
+import type { UserHandler } from '@hippo/api'
 import { hc } from 'hono/client'
 import { onMounted } from 'vue'
 
