@@ -9,6 +9,13 @@ export default defineConfig({
       {
         extends: true,
         test: {
+          include: ['**/*.int.test.ts'],
+          setupFiles: ['./vitest.setup.ts'],
+        },
+      },
+      {
+        extends: true,
+        test: {
           include: ['**/*.unit.test.ts'],
         },
       },
