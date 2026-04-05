@@ -1,5 +1,8 @@
 import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
+import { createDb } from './database'
+
+export const db = createDb()
 
 const app = new Hono()
 
