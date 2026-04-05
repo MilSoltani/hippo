@@ -1,6 +1,7 @@
 {
   "name": "@hippo/api",
   "type": "module",
+  "exports": { "./clients": "./src/clients.ts" },
   "scripts": {
     "build": "tsc",
     "start": "node dist/main.js",

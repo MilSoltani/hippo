@@ -1,14 +1,16 @@
 import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
-import { createDb } from './database'
-
-export const db = createDb()
+import { cors } from 'hono/cors'
+import { userHandler } from './user'
 
 const app = new Hono()
+app.use(cors())
 
 app.get('/', (c) => {
   return c.text('Hello Hono!')
 })
+
+app.route('/users', userHandler)
 
 serve({
   fetch: app.fetch,

@@ -1,4 +1,12 @@
 {
+  "compilerOptions": {
+    "composite": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@hippo/api/*": ["../api/src/*"]
+    }
+  },
   "references": [
     {
       "path": "./tsconfig.node.json"

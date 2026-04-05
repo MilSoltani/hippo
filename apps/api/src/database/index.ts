@@ -13,3 +13,4 @@ export function createDb(schema = tables) {
 
 export * as tables from './tables'
 export type DbType = ReturnType<typeof createDb>
+export const db = createDb()

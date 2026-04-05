@@ -1,4 +1,14 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import type { UserHandler } from '@hippo/api/clients'
+import { hc } from 'hono/client'
+import { onMounted } from 'vue'
+
+const usersClient = hc<UserHandler>('http://localhost:3000/users')
+
+onMounted(async () => {
+  await usersClient.index.$get()
+})
+</script>
 
 <template>
   <h1>You did it!</h1>

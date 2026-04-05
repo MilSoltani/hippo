@@ -1,4 +1,4 @@
-import { db } from '@api/main'
+import { db } from '@api/database'
 import { createUserHandler } from './user.handler'
 import { createUsersRepository } from './user.repository'
 import { createUserService } from './user.service'

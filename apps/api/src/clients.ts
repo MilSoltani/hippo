@@ -1,1 +1,1 @@
-export type { UserHandler } from '@api/user'
+export type { UserHandler } from './user'

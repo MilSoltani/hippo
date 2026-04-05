@@ -13,6 +13,8 @@
     "type-check": "vue-tsc --build"
   },
   "dependencies": {
+    "@hippo/api": "*",
+    "hono": "^4.12.10",
     "vue": "^3.5.31",
     "vue-router": "^5.0.4"
   },
