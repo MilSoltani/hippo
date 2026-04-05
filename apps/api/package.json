@@ -1,7 +1,9 @@
 {
   "name": "@hippo/api",
   "type": "module",
-  "exports": { "./clients": "./src/clients.ts" },
+  "exports": {
+    "./clients": "./src/clients.ts"
+  },
   "scripts": {
     "build": "tsc",
     "start": "node dist/main.js",
@@ -24,6 +26,7 @@
     "@types/pg": "^8.20.0",
     "drizzle-kit": "^0.31.10",
     "tsx": "^4.21.0",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "vitest": "^4.1.2"
   }
 }
