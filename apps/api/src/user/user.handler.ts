@@ -8,7 +8,9 @@ import { UserSchema } from './users.schema'
 export function createUserHandler(userService: UserService) {
   return new OpenAPIHono<AppEnvironment>()
     .openapi(UserRoutes.getAll, async (c) => {
-      const data = await userService.getAll()
+      const query = c.req.query()
+
+      const data = await userService.getAll(query)
       const parsedData = z.array(UserSchema).parse(data)
       return c.json(parsedData, 200)
     })

@@ -1,10 +1,10 @@
 import type { UserRepository } from './user.repository'
-import type { CreateUser, UpdateUser } from './users.schema'
+import type { CreateUser, UpdateUser, UserQuery } from './users.schema'
 import { NotFoundException } from '@api/errors'
 
 export function createUserService(userRepository: UserRepository) {
-  async function getAll() {
-    const result = await userRepository.getAll()
+  async function getAll(query: UserQuery) {
+    const result = await userRepository.getAll(query)
 
     return result
   }

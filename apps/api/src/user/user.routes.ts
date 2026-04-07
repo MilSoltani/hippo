@@ -1,13 +1,16 @@
 import { ErrorSchema } from '@api/errors'
 import { IdParamSchema } from '@api/types'
 import { createRoute, z } from '@hono/zod-openapi'
-import { CreateUserSchema, UpdateUserSchema, UserSchema } from './users.schema'
+import { CreateUserSchema, UpdateUserSchema, UserQuerySchema, UserSchema } from './users.schema'
 
 export const UserRoutes = {
   getAll: createRoute({
     method: 'get',
     path: '/',
     tags: ['User'],
+    request: {
+      query: UserQuerySchema,
+    },
     responses: {
       200: {
         content: { 'application/json': { schema: z.array(UserSchema) } },

@@ -1,14 +1,25 @@
 import type { DbType } from '@api/database'
-import type { CreateUser, UpdateUser, User } from './users.schema'
+import type { SQL } from 'drizzle-orm'
+import type { CreateUser, UpdateUser, User, UserQuery } from './users.schema'
 import { tables } from '@api/database'
-import { eq } from 'drizzle-orm'
+import { parseRHSFilters } from '@api/lib'
+import { and, eq } from 'drizzle-orm'
 import { publicUserColumns } from './users.schema'
 
 export function createUsersRepository(db: DbType) {
-  async function getAll(): Promise<User[]> {
+  async function getAll(query: UserQuery): Promise<User[]> {
+    const filters: (SQL | undefined)[] = [
+      parseRHSFilters(tables.users.firstName, query.firstName),
+      parseRHSFilters(tables.users.lastName, query.lastName),
+      parseRHSFilters(tables.users.username, query.username),
+      parseRHSFilters(tables.users.createdAt, query.createdAt),
+      parseRHSFilters(tables.users.updatedAt, query.updatedAt),
+    ]
+
     const result = await db
       .select(publicUserColumns)
       .from(tables.users)
+      .where(and(...filters.filter(Boolean)))
 
     return result
   }
