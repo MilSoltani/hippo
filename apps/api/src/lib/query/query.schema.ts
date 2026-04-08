@@ -1,7 +1,12 @@
-export interface QueryParams {
-  sort?: string // e.g., "createdAt:desc" or "name"
-  select?: string // e.g., "id,name,email"
-  page?: string // e.g., "1"
-  limit?: string // e.g., "20"
-  [key: string]: any // Catch-all for filters like age=gt:18
-}
+import { z } from 'zod'
+
+export const QueryParamsSchema = z
+  .object({
+    sort: z.string().optional(),
+    select: z.string().optional(),
+    page: z.string().optional(),
+    limit: z.string().optional(),
+  })
+  .catchall(z.any())
+
+export type QueryParams = z.infer<typeof QueryParamsSchema>

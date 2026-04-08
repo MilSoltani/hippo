@@ -44,22 +44,9 @@ export const publicUserColumns = {
   updatedAt: users.updatedAt,
 }
 
-export const UserQuerySchema = z.object({
-  firstName: z.string().optional(),
-  lastName: z.string().optional(),
-  username: z.string().optional(),
-  createdAt: z.string().optional(),
-  updatedAt: z.string().optional(),
-  sort: z.string().optional(),
-  select: z.string().optional(),
-  page: z.string().optional(),
-  limit: z.string().optional(),
-})
-
 // types
 
 export type User = z.infer<typeof UserSchema>
 export type CreateUser = z.infer<typeof CreateUserSchema>
 export type UpdateUser = z.infer<typeof UpdateUserSchema>
 export type UserBase = z.infer<typeof UserBaseSchema>
-export type UserQuery = z.infer<typeof UserQuerySchema>
