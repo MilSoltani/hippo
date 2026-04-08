@@ -2,6 +2,9 @@ import type { Column } from 'drizzle-orm'
 import type { OperatorKey } from './operators'
 
 function isDateColumn(column: Column): boolean {
+  if (!column?.columnType)
+    return false
+
   return (
     column.columnType.includes('Date')
     || column.columnType.includes('Timestamp')
