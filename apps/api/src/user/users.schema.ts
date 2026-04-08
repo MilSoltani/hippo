@@ -50,6 +50,10 @@ export const UserQuerySchema = z.object({
   username: z.string().optional(),
   createdAt: z.string().optional(),
   updatedAt: z.string().optional(),
+  sort: z.string().optional(),
+  select: z.string().optional(),
+  page: z.string().optional(),
+  limit: z.string().optional(),
 })
 
 // types

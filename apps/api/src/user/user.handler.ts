@@ -1,7 +1,6 @@
 import type { AppEnvironment } from '@api/types'
 import type { UserService } from './user.service'
 import { OpenAPIHono } from '@hono/zod-openapi'
-import { z } from 'zod'
 import { UserRoutes } from './user.routes'
 import { UserSchema } from './users.schema'
 
@@ -11,8 +10,7 @@ export function createUserHandler(userService: UserService) {
       const query = c.req.query()
 
       const data = await userService.getAll(query)
-      const parsedData = z.array(UserSchema).parse(data)
-      return c.json(parsedData, 200)
+      return c.json(data, 200)
     })
     .openapi(UserRoutes.getById, async (c) => {
       const { id } = c.req.valid('param')
