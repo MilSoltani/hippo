@@ -1,7 +1,7 @@
 // handlers
 
-export type { UserHandler } from './user'
+export type { UserHandler } from './modules/user'
 
 // schemas
 
-export { UserSchemas } from './user'
+export { UserSchemas } from './modules/user'

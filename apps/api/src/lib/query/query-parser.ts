@@ -1,7 +1,7 @@
 import type { Column, SQL } from 'drizzle-orm'
 import type { AnyPgColumn, PgTable } from 'drizzle-orm/pg-core'
 import type { QueryParams } from './query.schema'
-import { publicUserColumns } from '@api/user/users.schema'
+import { publicUserColumns } from '@api/modules/user/users.schema'
 import { and, asc, desc } from 'drizzle-orm'
 import { parseRHSFilters } from './filter-parser'
 
