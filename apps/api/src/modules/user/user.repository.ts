@@ -11,16 +11,18 @@ export function createUsersRepository(db: DbType) {
     const { select, where, orderBy, limit, offset }
       = parseQueryParams(tables.users, query)
 
-    // Ensure password is never selected, even if explicitly requested via query params
+    // never select password
     const safeSelect = select
       ? Object.fromEntries(
-        Object.entries(select).filter(([key]) => key !== 'password'),
-      ) || publicUserColumns
-      : publicUserColumns
+          Object.entries(select).filter(([key]) => key !== 'password'),
+        )
+      : null
 
-    const result = await db
-      .select(safeSelect)
-      .from(tables.users)
+    const query_builder = (safeSelect && Object.keys(safeSelect).length > 0)
+      ? db.select(safeSelect).from(tables.users)
+      : db.select(publicUserColumns).from(tables.users)
+
+    const result = await query_builder
       .where(where)
       .orderBy(orderBy ?? asc(tables.users.username))
       .limit(limit)
