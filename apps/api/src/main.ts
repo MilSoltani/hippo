@@ -1,6 +1,7 @@
 import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
+import { ticketHandler } from './modules/ticket'
 import { userHandler } from './modules/user'
 
 const app = new Hono()
@@ -11,6 +12,7 @@ app.get('/', (c) => {
 })
 
 app.route('/users', userHandler)
+app.route('/tickets', ticketHandler)
 
 serve({
   fetch: app.fetch,

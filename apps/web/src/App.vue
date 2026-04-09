@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import type { UserHandler } from '@hippo/api'
+import type { TicketHandler, UserHandler } from '@hippo/api'
 import { hc } from 'hono/client'
 import { onMounted } from 'vue'
 
 const usersClient = hc<UserHandler>('http://localhost:3000/users')
+const ticketsClient = hc<TicketHandler>('http://localhost:3000/tickets')
 
 onMounted(async () => {
   await usersClient.index.$get()
+  await ticketsClient.index.$get()
 })
 </script>
 
