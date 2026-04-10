@@ -1,9 +1,9 @@
 // ticket
 
-export type { TicketHandler } from './modules/ticket'
-export { TicketSchemas } from './modules/ticket'
+export type { TicketHandler } from '@api/modules/ticket'
+export { TicketSchemas } from '@api/modules/ticket'
 
 // user
 
-export type { UserHandler } from './modules/user'
-export { UserSchemas } from './modules/user'
+export type { UserHandler } from '@api/modules/user'
+export { UserSchemas } from '@api/modules/user'
