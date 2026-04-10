@@ -1,5 +1,5 @@
+import { QueryParamsSchema } from '@api/core'
 import { ErrorSchema } from '@api/errors'
-import { QueryParamsSchema } from '@api/lib'
 import { IdParamSchema } from '@api/types'
 import { createRoute, z } from '@hono/zod-openapi'
 import { CreateTicketSchema, TicketSchema, UpdateTicketSchema } from './ticket.schema'

@@ -1,32 +1,23 @@
+import type { QueryParams } from '@api/core'
 import type { DbType } from '@api/database'
-import type { QueryParams } from '@api/lib'
 import type { CreateUser, UpdateUser, User } from './user.schema'
-import { parseQueryParams } from '@api/lib'
+import { parseQuery } from '@api/core'
 import { asc, eq } from 'drizzle-orm'
 import { publicColumns } from './user.schema'
 import { users } from './user.table'
 
 export function createUsersRepository(db: DbType) {
   async function getAll(query: QueryParams = {}): Promise<User[]> {
-    const { select, where, orderBy, limit, offset }
-      = parseQueryParams(users, query, publicColumns)
+    const { columns, where, orderBy, limit, offset }
+      = parseQuery(users, query, ['password'])
 
-    // never select password
-    const safeSelect = select
-      ? Object.fromEntries(
-          Object.entries(select).filter(([key]) => key !== 'password'),
-        )
-      : null
-
-    const query_builder = (safeSelect && Object.keys(safeSelect).length > 0)
-      ? db.select(safeSelect).from(users)
-      : db.select(publicColumns).from(users)
-
-    const result = await query_builder
-      .where(where)
-      .orderBy(orderBy ?? asc(users.username))
-      .limit(limit)
-      .offset(offset)
+    const result = await db.query.users.findMany({
+      columns,
+      where,
+      orderBy: orderBy ?? asc(users.username),
+      limit,
+      offset,
+    })
 
     return result as User[]
   }

@@ -1,24 +1,22 @@
 import type { DbType } from '@api/database'
 import type { QueryParams } from '@api/lib'
 import type { CreateTicket, Ticket, UpdateTicket } from './ticket.schema'
-import { parseQueryParams } from '@api/lib'
-import { asc, eq } from 'drizzle-orm'
+import { parseQuery } from '@api/core'
+import { desc, eq } from 'drizzle-orm'
 import { tickets } from './ticket.table'
 
 export function createTicketsRepository(db: DbType) {
   async function getAll(query: QueryParams = {}): Promise<Ticket[]> {
-    const { select, where, orderBy, limit, offset }
-      = parseQueryParams(tickets, query)
+    const { columns, where, orderBy, limit, offset }
+      = parseQuery(tickets, query)
 
-    const query_builder = select
-      ? db.select(select).from(tickets)
-      : db.select().from(tickets)
-
-    const result = await query_builder
-      .where(where)
-      .orderBy(orderBy ?? asc(tickets.subject))
-      .limit(limit)
-      .offset(offset)
+    const result = await db.query.tickets.findMany({
+      columns,
+      where,
+      orderBy: orderBy ?? desc(tickets.createdAt),
+      limit,
+      offset,
+    })
 
     return result as Ticket[]
   }
