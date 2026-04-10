@@ -2,10 +2,10 @@ import type { AnyPgTable } from 'drizzle-orm/pg-core'
 import type { QueryParams } from './query.schema'
 import type { ColumnName, TableColumns } from './types'
 import { getTableColumns } from 'drizzle-orm'
-import { parsePagination } from './pagination-parser'
-import { parseSelect } from './select-parser'
-import { parseSort } from './sort-parser'
-import { parseWhere } from './where-parser'
+import { parseOrderParams } from './order'
+import { parsePaginationParams } from './pagination'
+import { parseSelectParam } from './select'
+import { parseWhereParams } from './where'
 
 export function parseQuery<T extends AnyPgTable>(
   table: T,
@@ -22,9 +22,9 @@ export function parseQuery<T extends AnyPgTable>(
   } = query
 
   return {
-    select: parseSelect(tableColumns, skipColumns, selectCols),
-    where: parseWhere(tableColumns, filters),
-    orderBy: parseSort(tableColumns, sort),
-    ...parsePagination(page, queryLimit),
+    select: parseSelectParam(tableColumns, skipColumns, selectCols),
+    where: parseWhereParams(tableColumns, filters),
+    orderBy: parseOrderParams(tableColumns, sort),
+    ...parsePaginationParams(page, queryLimit),
   }
 }

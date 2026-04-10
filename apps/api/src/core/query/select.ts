@@ -1,7 +1,7 @@
 import type { AnyPgTable } from 'drizzle-orm/pg-core'
 import type { ColumnName, TableColumns } from './types'
 
-export function parseSelect<T extends AnyPgTable>(
+export function parseSelectParam<T extends AnyPgTable>(
   tableColumns: TableColumns,
   skipColumns: ColumnName<T>[] = [],
   selectQuery?: string,
