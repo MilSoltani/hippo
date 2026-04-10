@@ -8,6 +8,7 @@ export const ticketPriority = pgEnum('priority', ['low', 'medium', 'high', 'urge
 
 export const tickets = pgTable('tickets', {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  creatorId: integer('creator_id').notNull().references(() => users.id, { onDelete: 'restrict' }),
   agentId: integer('agent_id').references(() => users.id, { onDelete: 'restrict' }),
   subject: varchar({ length: 512 }).notNull(),
   description: text().notNull(),
