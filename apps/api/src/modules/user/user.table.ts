@@ -1,12 +1,12 @@
-import { integer, pgTable, timestamp, varchar } from 'drizzle-orm/pg-core'
+import { timestamps } from '@api/database/timestamps'
+import { integer, pgTable, varchar } from 'drizzle-orm/pg-core'
 
 export const users = pgTable('users', {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  firstName: varchar({ length: 255 }),
-  lastName: varchar({ length: 255 }),
+  firstName: varchar('first_name', { length: 255 }),
+  lastName: varchar('last_name', { length: 255 }),
   username: varchar({ length: 255 }).notNull().unique(),
   password: varchar({ length: 255 }),
   email: varchar({ length: 255 }).notNull().unique(),
-  updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
-  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+  ...timestamps,
 })

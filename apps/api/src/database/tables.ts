@@ -1,2 +1,2 @@
-export { tickets } from '@api/modules/ticket'
-export { users } from '@api/modules/user'
+export * from '@api/modules/ticket/ticket.table'
+export * from '@api/modules/user/user.table'
