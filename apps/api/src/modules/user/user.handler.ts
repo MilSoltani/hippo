@@ -2,7 +2,7 @@ import type { AppEnvironment } from '@api/types'
 import type { UserService } from './user.service'
 import { OpenAPIHono } from '@hono/zod-openapi'
 import { UserRoutes } from './user.routes'
-import { UserSchema } from './users.schema'
+import { UserSchema } from './user.schema'
 
 export function createUserHandler(userService: UserService) {
   return new OpenAPIHono<AppEnvironment>()

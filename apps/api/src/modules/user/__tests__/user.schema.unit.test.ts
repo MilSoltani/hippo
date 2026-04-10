@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { CreateUserSchema, publicColumns, UpdateUserSchema, UserSchema } from '../users.schema'
+import { CreateUserSchema, publicColumns, UpdateUserSchema, UserSchema } from '../user.schema'
 
 describe('userSchema', () => {
   describe('insert validation', () => {

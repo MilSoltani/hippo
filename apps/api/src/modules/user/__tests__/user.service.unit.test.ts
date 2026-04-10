@@ -1,5 +1,5 @@
 import type { UserRepository } from '../user.repository'
-import type { User } from '../users.schema'
+import type { User } from '../user.schema'
 import { NotFoundException } from '@api/errors'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { createUserService } from '../user.service'

@@ -1,6 +1,6 @@
 import type { QueryParams } from '@api/lib'
 import type { UserRepository } from './user.repository'
-import type { CreateUser, UpdateUser } from './users.schema'
+import type { CreateUser, UpdateUser } from './user.schema'
 import { NotFoundException } from '@api/errors'
 
 export function createUserService(userRepository: UserRepository) {

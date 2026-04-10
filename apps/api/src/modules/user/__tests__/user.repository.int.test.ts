@@ -1,4 +1,4 @@
-import type { CreateUser } from '../users.schema'
+import type { CreateUser } from '../user.schema'
 import { db } from '@api/database'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { createUsersRepository } from '../user.repository'
