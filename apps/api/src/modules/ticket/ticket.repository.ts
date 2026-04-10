@@ -1,5 +1,5 @@
+import type { QueryParams } from '@api/core'
 import type { DbType } from '@api/database'
-import type { QueryParams } from '@api/lib'
 import type { CreateTicket, Ticket, UpdateTicket } from './ticket.schema'
 import { parseQuery } from '@api/core'
 import { desc, eq } from 'drizzle-orm'
@@ -7,7 +7,7 @@ import { tickets } from './ticket.table'
 
 export function createTicketsRepository(db: DbType) {
   async function getAll(query: QueryParams = {}): Promise<Ticket[]> {
-    const { columns, where, orderBy, limit, offset }
+    const { columns, where, orderBy, limit, offset, with: withQuery }
       = parseQuery(tickets, query)
 
     const result = await db.query.tickets.findMany({
@@ -16,6 +16,7 @@ export function createTicketsRepository(db: DbType) {
       orderBy: orderBy ?? desc(tickets.createdAt),
       limit,
       offset,
+      with: withQuery,
     })
 
     return result as Ticket[]

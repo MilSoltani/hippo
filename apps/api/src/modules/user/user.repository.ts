@@ -8,7 +8,7 @@ import { users } from './user.table'
 
 export function createUsersRepository(db: DbType) {
   async function getAll(query: QueryParams = {}): Promise<User[]> {
-    const { columns, where, orderBy, limit, offset }
+    const { columns, where, orderBy, limit, offset, with: withQuery }
       = parseQuery(users, query, ['password'])
 
     const result = await db.query.users.findMany({
@@ -17,6 +17,7 @@ export function createUsersRepository(db: DbType) {
       orderBy: orderBy ?? asc(users.username),
       limit,
       offset,
+      with: withQuery,
     })
 
     return result as User[]

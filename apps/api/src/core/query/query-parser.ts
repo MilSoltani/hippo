@@ -5,6 +5,7 @@ import { parseColumnsParam } from './columns'
 import { parseOrderParams } from './order'
 import { parsePaginationParams } from './pagination'
 import { parseWhereParams } from './where'
+import { parseWithParam } from './with'
 
 export function parseQuery<T extends AnyPgTable>(
   table: T,
@@ -12,18 +13,21 @@ export function parseQuery<T extends AnyPgTable>(
   skipColumns: ColumnName<T>[] = [],
 ) {
   const tableColumns: TableColumns = getTableColumns(table)
+
   const {
     sort,
-    select,
+    columns,
     page,
-    limit: queryLimit,
+    limit,
+    with: withQuery,
     ...filters
   } = query
 
   return {
-    columns: parseColumnsParam(tableColumns, skipColumns, select),
+    columns: parseColumnsParam(tableColumns, skipColumns, columns),
     where: parseWhereParams(tableColumns, filters),
     orderBy: parseOrderParams(tableColumns, sort),
-    ...parsePaginationParams(page, queryLimit),
+    ...parsePaginationParams(page, limit),
+    with: parseWithParam(withQuery),
   }
 }

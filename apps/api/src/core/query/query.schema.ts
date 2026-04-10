@@ -5,10 +5,11 @@ import { z } from 'zod'
 
 export const QueryParamsSchema = z
   .object({
-    select: z.string().optional(),
+    columns: z.string().optional(),
     sort: z.string().optional(),
     page: z.string().optional(),
     limit: z.string().optional(),
+    with: z.string().optional(),
   })
   .catchall(z.any())
 
