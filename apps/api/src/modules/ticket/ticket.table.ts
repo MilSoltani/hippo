@@ -1,5 +1,6 @@
 import { timestamps } from '@api/database/timestamps'
-import { users } from '@api/modules/user/user.table'
+import { users } from '@api/modules/user'
+import { relations } from 'drizzle-orm'
 import { integer, pgEnum, pgTable, text, varchar } from 'drizzle-orm/pg-core'
 
 export const ticketStatus = pgEnum('status', ['open', 'pending', 'working', 'resolved', 'closed'])
@@ -16,3 +17,16 @@ export const tickets = pgTable('tickets', {
   priority: ticketPriority().notNull().default('low'),
   ...timestamps,
 })
+
+export const ticketRelations = relations(tickets, ({ one }) => ({
+  creator: one(users, {
+    fields: [tickets.creatorId],
+    references: [users.id],
+    relationName: 'creator',
+  }),
+  agent: one(users, {
+    fields: [tickets.agentId],
+    references: [users.id],
+    relationName: 'agent',
+  }),
+}))

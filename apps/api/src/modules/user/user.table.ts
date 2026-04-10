@@ -1,4 +1,6 @@
 import { timestamps } from '@api/database/timestamps'
+import { tickets } from '@api/modules/ticket'
+import { relations } from 'drizzle-orm'
 import { integer, pgTable, varchar } from 'drizzle-orm/pg-core'
 
 export const users = pgTable('users', {
@@ -10,3 +12,12 @@ export const users = pgTable('users', {
   email: varchar({ length: 255 }).notNull().unique(),
   ...timestamps,
 })
+
+export const userRelations = relations(users, ({ many }) => ({
+  createdTickets: many(tickets, {
+    relationName: 'creator',
+  }),
+  assignedTickets: many(tickets, {
+    relationName: 'agent',
+  }),
+}))
