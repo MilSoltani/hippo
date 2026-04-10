@@ -1,6 +1,6 @@
-import { tickets } from '@api/database/tables'
 import { extendZodWithOpenApi, z } from '@hono/zod-openapi'
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
+import { tickets } from './ticket.table'
 
 extendZodWithOpenApi(z)
 

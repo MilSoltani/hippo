@@ -1,7 +1,7 @@
-import { users } from '@api/database/tables'
 import { extendZodWithOpenApi, z } from '@hono/zod-openapi'
 import { getTableColumns } from 'drizzle-orm'
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
+import { users } from './user.table'
 
 extendZodWithOpenApi(z)
 

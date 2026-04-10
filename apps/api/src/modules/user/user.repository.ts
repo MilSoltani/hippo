@@ -1,15 +1,15 @@
 import type { DbType } from '@api/database'
 import type { QueryParams } from '@api/lib'
 import type { CreateUser, UpdateUser, User } from './user.schema'
-import { tables } from '@api/database'
 import { parseQueryParams } from '@api/lib'
 import { asc, eq } from 'drizzle-orm'
 import { publicColumns } from './user.schema'
+import { users } from './user.table'
 
 export function createUsersRepository(db: DbType) {
   async function getAll(query: QueryParams = {}): Promise<User[]> {
     const { select, where, orderBy, limit, offset }
-      = parseQueryParams(tables.users, query, publicColumns)
+      = parseQueryParams(users, query, publicColumns)
 
     // never select password
     const safeSelect = select
@@ -19,12 +19,12 @@ export function createUsersRepository(db: DbType) {
       : null
 
     const query_builder = (safeSelect && Object.keys(safeSelect).length > 0)
-      ? db.select(safeSelect).from(tables.users)
-      : db.select(publicColumns).from(tables.users)
+      ? db.select(safeSelect).from(users)
+      : db.select(publicColumns).from(users)
 
     const result = await query_builder
       .where(where)
-      .orderBy(orderBy ?? asc(tables.users.username))
+      .orderBy(orderBy ?? asc(users.username))
       .limit(limit)
       .offset(offset)
 
@@ -34,15 +34,15 @@ export function createUsersRepository(db: DbType) {
   async function getById(id: number): Promise<User | undefined> {
     const [result] = await db
       .select(publicColumns)
-      .from(tables.users)
-      .where(eq(tables.users.id, id))
+      .from(users)
+      .where(eq(users.id, id))
 
     return result
   }
 
   async function create(data: CreateUser): Promise<User | undefined> {
     const [result] = await db
-      .insert(tables.users)
+      .insert(users)
       .values(data)
       .returning(publicColumns)
 
@@ -51,9 +51,9 @@ export function createUsersRepository(db: DbType) {
 
   async function update(id: number, data: UpdateUser): Promise<User | undefined> {
     const [result] = await db
-      .update(tables.users)
+      .update(users)
       .set({ ...data, updatedAt: new Date() })
-      .where(eq(tables.users.id, id))
+      .where(eq(users.id, id))
       .returning(publicColumns)
 
     return result
@@ -61,8 +61,8 @@ export function createUsersRepository(db: DbType) {
 
   async function remove(id: number): Promise<User | undefined> {
     const [result] = await db
-      .delete(tables.users)
-      .where(eq(tables.users.id, id))
+      .delete(users)
+      .where(eq(users.id, id))
       .returning(publicColumns)
 
     return result

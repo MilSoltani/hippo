@@ -10,3 +10,4 @@ export const ticketHandler = createTicketHandler(ticketService)
 export type { TicketHandler } from './ticket.handler'
 export * as TicketSchemas from './ticket.schema'
 export type { TicketService } from './ticket.service'
+export { tickets } from './ticket.table'
