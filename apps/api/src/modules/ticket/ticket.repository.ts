@@ -44,7 +44,7 @@ export function createTicketsRepository(db: DbType) {
   async function update(id: number, data: UpdateTicket): Promise<Ticket | undefined> {
     const [result] = await db
       .update(tickets)
-      .set({ ...data, updatedAt: new Date() })
+      .set({ ...data, updatedAt: new Date().toISOString() })
       .where(eq(tickets.id, id))
       .returning()
 

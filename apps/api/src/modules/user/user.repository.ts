@@ -52,7 +52,7 @@ export function createUsersRepository(db: DbType) {
   async function update(id: number, data: UpdateUser): Promise<User | undefined> {
     const [result] = await db
       .update(users)
-      .set({ ...data, updatedAt: new Date() })
+      .set({ ...data, updatedAt: new Date().toISOString() })
       .where(eq(users.id, id))
       .returning(publicColumns)
 

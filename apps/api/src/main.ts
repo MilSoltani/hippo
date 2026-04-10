@@ -1,8 +1,11 @@
+import { createTicketModule } from '@api/modules/ticket'
+import { createUserModule } from '@api/modules/user'
 import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
-import { ticketHandler } from './modules/ticket'
-import { userHandler } from './modules/user'
+
+const userModule = createUserModule()
+const ticketModule = createTicketModule()
 
 const app = new Hono()
 app.use(cors())
@@ -11,8 +14,8 @@ app.get('/', (c) => {
   return c.text('Hello Hono!')
 })
 
-app.route('/users', userHandler)
-app.route('/tickets', ticketHandler)
+app.route('/users', userModule.handler)
+app.route('/tickets', ticketModule.handler)
 
 serve({
   fetch: app.fetch,
