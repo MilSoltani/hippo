@@ -1,6 +1,5 @@
 import type { AnyPgTable } from 'drizzle-orm/pg-core'
-import type { QueryParams } from './query.schema'
-import type { ColumnName, TableColumns } from './types'
+import type { ColumnName, QueryParams, TableColumns } from './query.schema'
 import { getTableColumns } from 'drizzle-orm'
 import { parseColumnsParam } from './columns'
 import { parseOrderParams } from './order'

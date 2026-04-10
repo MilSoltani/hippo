@@ -1,4 +1,4 @@
-import type { TableColumns } from './types'
+import type { TableColumns } from './query.schema'
 import { asc, desc } from 'drizzle-orm'
 
 export function parseOrderParams(

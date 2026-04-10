@@ -1,8 +1,8 @@
 import type { Column, SQL } from 'drizzle-orm'
 import type { BinaryOp, OperatorKey, UnaryOp } from './operators'
-import type { TableColumns } from './types'
-import { and } from 'drizzle-orm'
+import type { TableColumns } from './query.schema'
 
+import { and } from 'drizzle-orm'
 import { BINARY_OPERATORS, OPERATORS, UNARY_OPERATORS } from './operators'
 
 export function parseWhereParams(
