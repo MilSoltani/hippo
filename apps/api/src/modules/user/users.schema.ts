@@ -1,5 +1,6 @@
 import { users } from '@api/database/tables'
 import { extendZodWithOpenApi, z } from '@hono/zod-openapi'
+import { getTableColumns } from 'drizzle-orm'
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 
 extendZodWithOpenApi(z)
@@ -34,15 +35,8 @@ export const UserBaseSchema = UserSchema.omit({
   updatedAt: true,
 }).openapi('UserBase')
 
-export const publicUserColumns = {
-  id: users.id,
-  firstName: users.firstName,
-  lastName: users.lastName,
-  username: users.username,
-  email: users.email,
-  createdAt: users.createdAt,
-  updatedAt: users.updatedAt,
-}
+const { password, ...publicColumns } = getTableColumns(users)
+export { publicColumns }
 
 // types
 

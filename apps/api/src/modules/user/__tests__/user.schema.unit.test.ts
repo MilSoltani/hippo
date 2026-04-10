@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { CreateUserSchema, publicUserColumns, UpdateUserSchema, UserSchema } from '../users.schema'
+import { CreateUserSchema, publicColumns, UpdateUserSchema, UserSchema } from '../users.schema'
 
 describe('userSchema', () => {
   describe('insert validation', () => {
@@ -191,7 +191,7 @@ describe('userSchema', () => {
 
   describe('public shape', () => {
     it('public columns do not include password', () => {
-      expect(publicUserColumns).not.toHaveProperty('password')
+      expect(publicColumns).not.toHaveProperty('password')
     })
 
     it('rejects password in select', () => {

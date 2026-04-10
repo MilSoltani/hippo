@@ -8,7 +8,7 @@ const pool = new Pool({
 })
 
 export function createDb(schema = tables) {
-  return drizzle<typeof schema>({ client: pool, schema })
+  return drizzle<typeof schema>({ client: pool, schema, logger: true })
 }
 
 export * as tables from './tables'

@@ -4,12 +4,12 @@ import type { CreateUser, UpdateUser, User } from './users.schema'
 import { tables } from '@api/database'
 import { parseQueryParams } from '@api/lib'
 import { asc, eq } from 'drizzle-orm'
-import { publicUserColumns } from './users.schema'
+import { publicColumns } from './users.schema'
 
 export function createUsersRepository(db: DbType) {
   async function getAll(query: QueryParams = {}): Promise<User[]> {
     const { select, where, orderBy, limit, offset }
-      = parseQueryParams(tables.users, query)
+      = parseQueryParams(tables.users, query, publicColumns)
 
     // never select password
     const safeSelect = select
@@ -20,7 +20,7 @@ export function createUsersRepository(db: DbType) {
 
     const query_builder = (safeSelect && Object.keys(safeSelect).length > 0)
       ? db.select(safeSelect).from(tables.users)
-      : db.select(publicUserColumns).from(tables.users)
+      : db.select(publicColumns).from(tables.users)
 
     const result = await query_builder
       .where(where)
@@ -33,7 +33,7 @@ export function createUsersRepository(db: DbType) {
 
   async function getById(id: number): Promise<User | undefined> {
     const [result] = await db
-      .select(publicUserColumns)
+      .select(publicColumns)
       .from(tables.users)
       .where(eq(tables.users.id, id))
 
@@ -44,7 +44,7 @@ export function createUsersRepository(db: DbType) {
     const [result] = await db
       .insert(tables.users)
       .values(data)
-      .returning(publicUserColumns)
+      .returning(publicColumns)
 
     return result
   }
@@ -54,7 +54,7 @@ export function createUsersRepository(db: DbType) {
       .update(tables.users)
       .set({ ...data, updatedAt: new Date() })
       .where(eq(tables.users.id, id))
-      .returning(publicUserColumns)
+      .returning(publicColumns)
 
     return result
   }
@@ -63,7 +63,7 @@ export function createUsersRepository(db: DbType) {
     const [result] = await db
       .delete(tables.users)
       .where(eq(tables.users.id, id))
-      .returning(publicUserColumns)
+      .returning(publicColumns)
 
     return result
   }
