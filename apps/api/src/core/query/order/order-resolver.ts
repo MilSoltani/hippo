@@ -1,7 +1,7 @@
 import type { TableColumns } from '../query.schema'
 import { asc, desc } from 'drizzle-orm'
 
-export function parseOrderParams(
+export function resolveOrder(
   tableColumns: TableColumns,
   sort?: string,
 ) {

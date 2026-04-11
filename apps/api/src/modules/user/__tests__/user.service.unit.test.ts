@@ -23,8 +23,8 @@ describe('userService', () => {
     lastName: 'adams',
     username: 'badams',
     email: 'badams@mail.com',
-    createdAt: new Date(),
-    updatedAt: new Date(),
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
   }
 
   const USER_2: User = {
@@ -33,8 +33,8 @@ describe('userService', () => {
     lastName: 'smith',
     username: 'jsmith',
     email: 'jsmith@mail.com',
-    createdAt: new Date(),
-    updatedAt: new Date(),
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
   }
 
   beforeEach(() => {

@@ -5,7 +5,7 @@ interface RelationNode {
   relations: Record<string, RelationNode>
 }
 
-export function parseWithParam(
+export function resolveWith(
   query?: string,
 ): Record<string, RelationNode> | undefined {
   if (!query)
