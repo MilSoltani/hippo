@@ -4,7 +4,7 @@ import { getTableColumns } from 'drizzle-orm'
 import { parseOrderParams } from './order/order'
 import { parsePaginationParams } from './pagination/pagination'
 import { parseColumnsParam } from './select/columns'
-import { parseWhereParams } from './where/where'
+import { resolveWhere } from './where'
 import { parseWithParam } from './with/with'
 
 export function parseQuery<T extends AnyPgTable>(
@@ -25,7 +25,7 @@ export function parseQuery<T extends AnyPgTable>(
 
   return {
     columns: parseColumnsParam(tableColumns, skipColumns, columns),
-    where: parseWhereParams(tableColumns, filters),
+    where: resolveWhere(tableColumns, filters),
     orderBy: parseOrderParams(tableColumns, sort),
     ...parsePaginationParams(page, limit),
     with: parseWithParam(withQuery),

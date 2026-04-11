@@ -1,5 +1,5 @@
 import type { AnyPgTable } from 'drizzle-orm/pg-core'
-import type { ColumnName, TableColumns } from './query.schema'
+import type { ColumnName, TableColumns } from '../query.schema'
 
 export function parseColumnsParam<T extends AnyPgTable>(
   tableColumns: TableColumns,
