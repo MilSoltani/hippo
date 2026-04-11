@@ -1,3 +1,4 @@
+import { getEssentialColumns } from '@api/core/utils/db.util'
 import { extendZodWithOpenApi, z } from '@hono/zod-openapi'
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { tickets } from './ticket.table'
@@ -23,6 +24,11 @@ export const TicketBaseSchema = TicketSchema.pick({
   id: true,
   subject: true,
 }).openapi('TicketBase')
+
+export const essentialColumns = getEssentialColumns(
+  tickets,
+  ['id', 'subject'],
+)
 
 // types
 

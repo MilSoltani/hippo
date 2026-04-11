@@ -36,7 +36,13 @@ export const UserBaseSchema = UserSchema.omit({
 }).openapi('UserBase')
 
 const { password, ...publicColumns } = getTableColumns(users)
-export { publicColumns }
+
+const essentialColumns = Object.fromEntries(
+  Object.entries(publicColumns).filter(([key]) =>
+    key === 'id' || key === 'username'),
+)
+
+export { essentialColumns, publicColumns }
 
 // types
 
