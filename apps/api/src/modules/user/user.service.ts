@@ -1,4 +1,4 @@
-import type { QueryParams } from '@api/lib'
+import type { QueryParams } from '@api/core/query'
 import type { UserRepository } from './user.repository'
 import type { CreateUser, UpdateUser } from './user.schema'
 import { NotFoundException } from '@api/errors'

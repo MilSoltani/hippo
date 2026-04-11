@@ -1,4 +1,4 @@
-import { QueryParamsSchema } from '@api/core'
+import { QueryParamsSchema } from '@api/core/query'
 import { ErrorSchema } from '@api/errors'
 import { IdParamSchema } from '@api/types'
 import { createRoute, z } from '@hono/zod-openapi'

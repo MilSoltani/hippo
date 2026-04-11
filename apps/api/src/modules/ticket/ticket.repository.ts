@@ -1,7 +1,7 @@
-import type { QueryParams } from '@api/core'
 import type { DbType } from '@api/core/database'
+import type { QueryParams } from '@api/core/query'
 import type { CreateTicket, Ticket, UpdateTicket } from './ticket.schema'
-import { parseQuery } from '@api/core'
+import { parseQuery } from '@api/core/query'
 import { desc, eq } from 'drizzle-orm'
 import { tickets } from './ticket.table'
 
