@@ -1,9 +1,9 @@
 import type { DbType } from '@api/core/database'
 import type { QueryParams } from '@api/core/query'
 import type { CreateTicket, Ticket, UpdateTicket } from './ticket.schema'
+import { tickets } from '@api/core/database/tables'
 import { parseQuery } from '@api/core/query'
 import { desc, eq } from 'drizzle-orm'
-import { tickets } from './ticket.table'
 
 export function createTicketsRepository(db: DbType) {
   async function getAll(query: QueryParams = {}): Promise<Ticket[]> {

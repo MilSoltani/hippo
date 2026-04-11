@@ -1,10 +1,10 @@
 import type { DbType } from '@api/core/database'
 import type { QueryParams } from '@api/core/query'
 import type { CreateUser, UpdateUser, User } from './user.schema'
+import { users } from '@api/core/database/tables'
 import { parseQuery } from '@api/core/query'
 import { asc, eq } from 'drizzle-orm'
 import { publicColumns } from './user.schema'
-import { users } from './user.table'
 
 export function createUsersRepository(db: DbType) {
   async function getAll(query: QueryParams = {}): Promise<User[]> {

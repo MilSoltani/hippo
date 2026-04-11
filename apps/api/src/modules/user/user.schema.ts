@@ -1,7 +1,8 @@
+import { users } from '@api/core/database/tables'
+import { getSelectedColumns } from '@api/core/utils/db.util'
 import { extendZodWithOpenApi, z } from '@hono/zod-openapi'
 import { getTableColumns } from 'drizzle-orm'
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
-import { users } from './user.table'
 
 extendZodWithOpenApi(z)
 
@@ -37,12 +38,9 @@ export const UserBaseSchema = UserSchema.omit({
 
 const { password, ...publicColumns } = getTableColumns(users)
 
-const essentialColumns = Object.fromEntries(
-  Object.entries(publicColumns).filter(([key]) =>
-    key === 'id' || key === 'username'),
-)
+const userEssentialColumns = getSelectedColumns(users, ['id', 'username'])
 
-export { essentialColumns, publicColumns }
+export { publicColumns, userEssentialColumns }
 
 // types
 
