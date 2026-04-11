@@ -1,4 +1,4 @@
-import type { QueryParams } from '@api/lib'
+import type { QueryParams } from '@api/core'
 import type { TicketRepository } from './ticket.repository'
 import type { CreateTicket, UpdateTicket } from './ticket.schema'
 import { NotFoundException } from '@api/errors'

@@ -1,9 +1,28 @@
 import type { Column, SQL } from 'drizzle-orm'
+import type { AnyPgTable } from 'drizzle-orm/pg-core'
 import type { BinaryOp, OperatorKey, UnaryOp } from './operators'
 import type { TableColumns } from './query.schema'
 
-import { and } from 'drizzle-orm'
+import { db } from '@api/core/database'
+import { tickets } from '@api/modules/ticket'
+import { users } from '@api/modules/user'
+import { and, eq, exists, getTableColumns } from 'drizzle-orm'
 import { BINARY_OPERATORS, OPERATORS, UNARY_OPERATORS } from './operators'
+
+interface RelationInfo {
+  table: AnyPgTable
+  joinCondition: SQL
+}
+
+function getRelationInfo(relation: string): RelationInfo | undefined {
+  const map: Record<string, RelationInfo> = {
+    creator: { table: users, joinCondition: eq(users.id, tickets.creatorId) },
+    agent: { table: users, joinCondition: eq(users.id, tickets.agentId) },
+    createdTickets: { table: tickets, joinCondition: eq(tickets.creatorId, users.id) },
+    assignedTickets: { table: tickets, joinCondition: eq(tickets.agentId, users.id) },
+  }
+  return map[relation]
+}
 
 export function parseWhereParams(
   tableColumns: TableColumns,
@@ -11,20 +30,73 @@ export function parseWhereParams(
 ): SQL | undefined {
   const clauses = Object.entries(filters)
     .map(([key, value]) => {
-      const column = tableColumns[key]
       const isValidValue = value !== undefined && value !== null
-
-      if (!column || !isValidValue)
+      if (!isValidValue)
         return null
 
-      return parseFilters(column, value)
+      const parts = key.split('.')
+
+      if (parts.length > 1) {
+        const relation = parts[0]
+        const column = parts[1]
+
+        const relationInfo = getRelationInfo(relation)
+        if (!relationInfo)
+          return null
+
+        const relColumn = getTableColumns(relationInfo.table as any)[column] as Column | undefined
+        if (!relColumn)
+          return null
+
+        return parseFiltersWithRelation(relColumn, value, relationInfo)
+      }
+
+      const tableColumn = tableColumns[parts[0]]
+      if (!tableColumn)
+        return null
+
+      return parseFilters(tableColumn, value)
     })
     .filter((clause): clause is SQL => clause !== null)
 
   return clauses.length ? and(...clauses) : undefined
 }
 
-export function parseFilters(column: Column, value?: string): SQL | undefined {
+function parseFiltersWithRelation(
+  column: Column,
+  value: string,
+  { table, joinCondition }: RelationInfo,
+): SQL | undefined {
+  if (!value)
+    return undefined
+
+  const { op, rawValue } = extractOperation(value)
+
+  if (op in UNARY_OPERATORS) {
+    return exists(
+      db.select()
+        .from(table as any)
+        .where(and(joinCondition, UNARY_OPERATORS[op as UnaryOp](column))),
+    )
+  }
+
+  if (!rawValue)
+    return undefined
+
+  const parsedValue = parseColumnValue(column, rawValue, op)
+  const executor = BINARY_OPERATORS[op as BinaryOp]
+
+  return exists(
+    db.select()
+      .from(table as any)
+      .where(and(joinCondition, executor(column, parsedValue as any))),
+  )
+}
+
+export function parseFilters(
+  column: Column,
+  value?: string,
+): SQL | undefined {
   if (!value)
     return undefined
 
@@ -38,9 +110,7 @@ export function parseFilters(column: Column, value?: string): SQL | undefined {
     return undefined
 
   const parsedValue = parseColumnValue(column, rawValue, op)
-  const executor = BINARY_OPERATORS[op as BinaryOp]
-
-  return executor(column, parsedValue as any)
+  return BINARY_OPERATORS[op as BinaryOp](column, parsedValue as any)
 }
 
 function extractOperation(value: string): { op: OperatorKey, rawValue: string } {

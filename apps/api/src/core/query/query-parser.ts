@@ -11,7 +11,7 @@ export function parseQuery<T extends AnyPgTable>(
   table: T,
   query: QueryParams,
   skipColumns: ColumnName<T>[] = [],
-) {
+): Record<string, any> {
   const tableColumns: TableColumns = getTableColumns(table)
 
   const {
