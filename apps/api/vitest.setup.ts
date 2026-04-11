@@ -1,5 +1,5 @@
 import path from 'node:path'
-import * as schema from '@api/database/tables'
+import * as schema from '@api/core/database/tables'
 import { PGlite } from '@electric-sql/pglite'
 import { sql } from 'drizzle-orm'
 import { drizzle } from 'drizzle-orm/pglite'
@@ -23,7 +23,7 @@ const sharedState = vi.hoisted(() => ({
 }))
 
 vi.mock('@api/database', async (importOriginal) => {
-  const original = await importOriginal<typeof import('@api/database')>()
+  const original = await importOriginal<typeof import('@api/core/database')>()
 
   return {
     ...original,

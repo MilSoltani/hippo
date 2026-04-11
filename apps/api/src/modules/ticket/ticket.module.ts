@@ -1,4 +1,4 @@
-import { db } from '@api/database'
+import { db } from '@api/core/database'
 import { createTicketHandler } from './ticket.handler'
 import { createTicketsRepository } from './ticket.repository'
 import { createTicketService } from './ticket.service'

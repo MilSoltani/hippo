@@ -1,5 +1,5 @@
 import type { QueryParams } from '@api/core'
-import type { DbType } from '@api/database'
+import type { DbType } from '@api/core/database'
 import type { CreateUser, UpdateUser, User } from './user.schema'
 import { parseQuery } from '@api/core'
 import { asc, eq } from 'drizzle-orm'

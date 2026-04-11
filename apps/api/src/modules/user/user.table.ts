@@ -1,4 +1,4 @@
-import { timestamps } from '@api/database/timestamps'
+import { timestamps } from '@api/core/database/timestamps'
 import { tickets } from '@api/modules/ticket'
 import { relations } from 'drizzle-orm'
 import { integer, pgTable, varchar } from 'drizzle-orm/pg-core'
