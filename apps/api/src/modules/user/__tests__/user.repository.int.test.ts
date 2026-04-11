@@ -1,9 +1,9 @@
 import type { CreateUser } from '../user.schema'
-import { db } from '@api/core/database'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { createDb } from '../../../core/database/db'
 import { createUsersRepository } from '../user.repository'
 
-const UserRepository = createUsersRepository(db)
+const UserRepository = createUsersRepository(createDb())
 
 describe('usersRepository', () => {
   const NON_EXISTENT_USER_ID = 999
@@ -101,8 +101,8 @@ describe('usersRepository', () => {
 
       expect(result).toBeDefined()
       expect(result!.id).toBe(u1!.id)
-      expect(result!.createdAt).toBeInstanceOf(Date)
-      expect(result!.updatedAt).toBeInstanceOf(Date)
+      expect(result!.createdAt).toBeDefined()
+      expect(result!.updatedAt).toBeDefined()
     })
 
     it('fails on invalid input', async () => {

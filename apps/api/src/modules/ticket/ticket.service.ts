@@ -4,7 +4,7 @@ import type { CreateTicket, UpdateTicket } from './ticket.schema'
 import { NotFoundException } from '@api/errors'
 
 export function createTicketService(ticketRepository: TicketRepository) {
-  async function getAll(query: QueryParams) {
+  async function getAll(query: QueryParams = {}) {
     const result = await ticketRepository.getAll(query)
 
     return result

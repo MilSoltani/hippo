@@ -1,4 +1,4 @@
-export { db, type DbType } from './db'
+export { type DbType } from './db'
 export { getRelationMap } from './relation-map'
 export * as relations from './relations'
 export * as tables from './tables'

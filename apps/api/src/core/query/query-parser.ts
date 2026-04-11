@@ -1,4 +1,5 @@
 import type { AnyPgTable } from 'drizzle-orm/pg-core'
+import type { DbType } from '../database'
 import type { ColumnName, QueryParams, TableColumns } from './query.schema'
 import { getTableColumns } from 'drizzle-orm'
 import { resolveOrder } from './order/order-resolver'
@@ -8,6 +9,7 @@ import { resolveWhere } from './where'
 import { resolveWith } from './with/with-resolver'
 
 export function parseQuery<T extends AnyPgTable>(
+  db: DbType,
   table: T,
   query: QueryParams,
   skipColumns: ColumnName<T>[] = [],
@@ -25,7 +27,7 @@ export function parseQuery<T extends AnyPgTable>(
 
   return {
     columns: resolveColumns(tableColumns, skipColumns, columns),
-    where: resolveWhere(tableColumns, filters),
+    where: resolveWhere(db, tableColumns, filters),
     orderBy: resolveOrder(tableColumns, sort),
     ...resolvePagination(page, limit),
     with: resolveWith(withQuery),

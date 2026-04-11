@@ -4,7 +4,7 @@ import type { CreateUser, UpdateUser } from './user.schema'
 import { NotFoundException } from '@api/errors'
 
 export function createUserService(userRepository: UserRepository) {
-  async function getAll(query: QueryParams) {
+  async function getAll(query: QueryParams = {}) {
     const result = await userRepository.getAll(query)
 
     return result

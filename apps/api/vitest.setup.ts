@@ -1,7 +1,7 @@
 import path from 'node:path'
-import * as schema from '@api/core/database/tables'
+import { tables } from '@api/core/database'
 import { PGlite } from '@electric-sql/pglite'
-import { sql } from 'drizzle-orm'
+import { relations, sql } from 'drizzle-orm'
 import { drizzle } from 'drizzle-orm/pglite'
 import { migrate } from 'drizzle-orm/pglite/migrator'
 import { afterAll, beforeAll, beforeEach, vi } from 'vitest'
@@ -22,19 +22,17 @@ const sharedState = vi.hoisted(() => ({
   db: null as any,
 }))
 
-vi.mock('@api/database', async (importOriginal) => {
-  const original = await importOriginal<typeof import('@api/core/database')>()
+vi.mock('@api/core/database/db', async (importOriginal) => {
+  const original = await importOriginal<typeof import('@api/core/database/db')>()
 
   return {
     ...original,
-    get db() {
-      return sharedState.db
-    },
+    createDb: () => sharedState.db,
   }
 })
 
 sharedState.testClient = new PGlite()
-sharedState.db = drizzle(sharedState.testClient, { schema })
+sharedState.db = drizzle(sharedState.testClient, { schema: { ...tables, ...relations } })
 
 beforeAll(async () => {
   const migrationsFolder = path.resolve(__dirname, './drizzle')
