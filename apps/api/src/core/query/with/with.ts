@@ -1,14 +1,4 @@
-import { TicketSchemas } from '@api/modules/ticket'
-import { UserSchemas } from '@api/modules/user'
-
-function getTableEssentialMap() {
-  return {
-    creator: UserSchemas.essentialColumns,
-    agent: UserSchemas.essentialColumns,
-    createdTickets: TicketSchemas.essentialColumns,
-    assignedTickets: TicketSchemas.essentialColumns,
-  }
-}
+import { getRelationMap } from '@api/core/database/relation-map'
 
 interface RelationNode {
   columns?: Record<string, boolean>
@@ -21,7 +11,8 @@ export function parseWithParam(
   if (!query)
     return
 
-  const essentialMap = getTableEssentialMap()
+  const relationMap = getRelationMap()
+
   const tree: Record<string, RelationNode> = {}
 
   const relationPaths = query.split(',').map(p => p.trim())
@@ -35,7 +26,7 @@ export function parseWithParam(
       const isRoot = i === 0
 
       // reject unknown root relations
-      if (isRoot && !(key in essentialMap))
+      if (isRoot && !(key in relationMap))
         break
 
       // create node if missing
@@ -43,7 +34,7 @@ export function parseWithParam(
         node[key] = { relations: {} }
 
         // attach default columns for this relation node
-        const cols = essentialMap[key as keyof typeof essentialMap]
+        const cols = relationMap[key as keyof typeof relationMap]?.essentialColumns
         node[key].columns = Object.fromEntries(
           Object.keys(cols).map(col => [col, true]),
         )

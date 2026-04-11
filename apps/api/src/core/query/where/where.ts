@@ -1,28 +1,11 @@
 import type { Column, SQL } from 'drizzle-orm'
-import type { AnyPgTable } from 'drizzle-orm/pg-core'
-import type { TableColumns } from '../query.schema'
+import type { RelationInfo, TableColumns } from '../query.schema'
 import type { BinaryOp, OperatorKey, UnaryOp } from './operators'
 
 import { db } from '@api/core/database'
-import { tickets } from '@api/modules/ticket'
-import { users } from '@api/modules/user'
-import { and, eq, exists, getTableColumns } from 'drizzle-orm'
+import { getRelationMap } from '@api/core/database/relation-map'
+import { and, exists, getTableColumns } from 'drizzle-orm'
 import { BINARY_OPERATORS, OPERATORS, UNARY_OPERATORS } from './operators'
-
-interface RelationInfo {
-  table: AnyPgTable
-  joinCondition: SQL
-}
-
-function getRelationInfo(relation: string): RelationInfo | undefined {
-  const map: Record<string, RelationInfo> = {
-    creator: { table: users, joinCondition: eq(users.id, tickets.creatorId) },
-    agent: { table: users, joinCondition: eq(users.id, tickets.agentId) },
-    createdTickets: { table: tickets, joinCondition: eq(tickets.creatorId, users.id) },
-    assignedTickets: { table: tickets, joinCondition: eq(tickets.agentId, users.id) },
-  }
-  return map[relation]
-}
 
 export function parseWhereParams(
   tableColumns: TableColumns,
@@ -34,13 +17,16 @@ export function parseWhereParams(
       if (!isValidValue)
         return null
 
+      const relationMap = getRelationMap()
+
       const parts = key.split('.')
 
       if (parts.length > 1) {
         const relation = parts[0]
         const column = parts[1]
 
-        const relationInfo = getRelationInfo(relation)
+        const relationInfo = relationMap[relation]
+
         if (!relationInfo)
           return null
 
