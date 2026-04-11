@@ -1,7 +1,7 @@
 import type { Column, SQL } from 'drizzle-orm'
 import type { AnyPgTable } from 'drizzle-orm/pg-core'
+import type { TableColumns } from '../query.schema'
 import type { BinaryOp, OperatorKey, UnaryOp } from './operators'
-import type { TableColumns } from './query.schema'
 
 import { db } from '@api/core/database'
 import { tickets } from '@api/modules/ticket'

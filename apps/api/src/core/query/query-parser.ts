@@ -1,11 +1,11 @@
 import type { AnyPgTable } from 'drizzle-orm/pg-core'
 import type { ColumnName, QueryParams, TableColumns } from './query.schema'
 import { getTableColumns } from 'drizzle-orm'
-import { parseColumnsParam } from './columns'
-import { parseOrderParams } from './order'
-import { parsePaginationParams } from './pagination'
-import { parseWhereParams } from './where'
-import { parseWithParam } from './with'
+import { parseOrderParams } from './order/order'
+import { parsePaginationParams } from './pagination/pagination'
+import { parseColumnsParam } from './select/columns'
+import { parseWhereParams } from './where/where'
+import { parseWithParam } from './with/with'
 
 export function parseQuery<T extends AnyPgTable>(
   table: T,
