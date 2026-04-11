@@ -8,14 +8,19 @@ export function resolveOrder(
   if (!sort)
     return undefined
 
-  const [field, order = 'asc'] = sort.split(':')
-  const column = tableColumns[field]
+  const sortParts = sort.split(',')
 
-  if (!column)
-    return undefined
+  const directions = sortParts
+    .map((part) => {
+      const [field, order = 'asc'] = part.split(':')
+      const column = tableColumns[field]
 
-  const direction
-    = order.toLowerCase() === 'desc' ? desc(column) : asc(column)
+      if (!column)
+        return null
 
-  return [direction]
+      return order.toLowerCase() === 'desc' ? desc(column) : asc(column)
+    })
+    .filter((d): d is ReturnType<typeof asc> | ReturnType<typeof desc> => d !== null)
+
+  return directions.length > 0 ? directions : undefined
 }
