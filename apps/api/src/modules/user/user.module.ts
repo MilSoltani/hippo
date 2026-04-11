@@ -1,9 +1,9 @@
-import { db } from '@api/core/database'
+import type { DbType } from '@api/core/database'
 import { createUserHandler } from './user.handler'
 import { createUsersRepository } from './user.repository'
 import { createUserService } from './user.service'
 
-export function createUserModule() {
+export function createUserModule(db: DbType) {
   const repository = createUsersRepository(db)
   const service = createUserService(repository)
   const handler = createUserHandler(service)

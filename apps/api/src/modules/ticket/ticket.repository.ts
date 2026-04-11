@@ -8,7 +8,7 @@ import { desc, eq } from 'drizzle-orm'
 export function createTicketsRepository(db: DbType) {
   async function getAll(query: QueryParams = {}): Promise<Ticket[]> {
     const { columns, where, orderBy, limit, offset, with: withQuery }
-      = parseQuery(tickets, query)
+      = parseQuery(db, tickets, query)
 
     const result = await db.query.tickets.findMany({
       columns,

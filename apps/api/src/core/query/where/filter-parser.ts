@@ -1,12 +1,13 @@
+import type { DbType } from '@api/core/database'
 import type { Column, SQL } from 'drizzle-orm'
 import type { RelationInfo } from '../query.schema'
 import type { BinaryOp, UnaryOp } from './operators'
-import { db } from '@api/core/database'
 import { and, exists } from 'drizzle-orm'
 import { BINARY_OPERATORS, UNARY_OPERATORS } from './operators'
 import { extractOperation, parseColumnValue } from './value-parser'
 
 export function parseFiltersWithRelation(
+  db: DbType,
   column: Column,
   value: string,
   { table, joinCondition }: RelationInfo,

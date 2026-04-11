@@ -1,11 +1,13 @@
+import type { DbType } from '@api/core/database'
 import type { Column, SQL } from 'drizzle-orm'
-import type { TableColumns } from '../query.schema'
 
+import type { TableColumns } from '../query.schema'
 import { getRelationMap } from '@api/core/database/relation-map'
 import { and, getTableColumns } from 'drizzle-orm'
 import { parseFilters, parseFiltersWithRelation } from './filter-parser'
 
 export function resolveWhere(
+  db: DbType,
   tableColumns: TableColumns,
   filters: Record<string, any>,
 ): SQL | undefined {
@@ -32,7 +34,7 @@ export function resolveWhere(
         if (!relColumn)
           return null
 
-        return parseFiltersWithRelation(relColumn, value, relationInfo)
+        return parseFiltersWithRelation(db, relColumn, value, relationInfo)
       }
 
       const tableColumn = tableColumns[parts[0]]
