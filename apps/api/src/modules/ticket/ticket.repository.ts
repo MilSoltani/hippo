@@ -1,14 +1,14 @@
 import type { DbType } from '@api/core/database'
 import type { QueryParams } from '@api/core/query'
 import type { CreateTicket, Ticket, UpdateTicket } from './ticket.schema'
-import { queryAdapter } from '@api/core/database/query-adapter'
+import { adaptQuery } from '@api/core/database/query-adapter'
 import { tickets } from '@api/core/database/tables'
 import { desc, eq } from 'drizzle-orm'
 
 export function createTicketsRepository(db: DbType) {
   async function getAll(query: QueryParams = {}): Promise<Ticket[]> {
     const { columns, where, orderBy, limit, offset, with: withQuery }
-      = queryAdapter(db, tickets, query)
+      = adaptQuery(db, tickets, query)
 
     const result = await db.query.tickets.findMany({
       columns,

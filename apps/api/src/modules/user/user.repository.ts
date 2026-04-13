@@ -1,7 +1,7 @@
 import type { DbType } from '@api/core/database'
 import type { QueryParams } from '@api/core/query'
 import type { CreateUser, UpdateUser, User } from './user.schema'
-import { queryAdapter } from '@api/core/database/query-adapter'
+import { adaptQuery } from '@api/core/database/query-adapter'
 import { users } from '@api/core/database/tables'
 import { asc, eq } from 'drizzle-orm'
 import { publicColumns } from './user.schema'
@@ -9,7 +9,7 @@ import { publicColumns } from './user.schema'
 export function createUsersRepository(db: DbType) {
   async function getAll(query: QueryParams = {}): Promise<User[]> {
     const { columns, where, orderBy, limit, offset, with: withQuery }
-      = queryAdapter(db, users, query, ['password'])
+      = adaptQuery(db, users, query, ['password'])
 
     const result = await db.query.users.findMany({
       columns,

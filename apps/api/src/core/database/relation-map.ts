@@ -1,9 +1,9 @@
-import type { RelationInfo } from './query-adapter/types'
+import type { TableRelation } from './query-adapter/types'
 import { eq } from 'drizzle-orm'
 import { getSelectedColumns } from '../utils/db.util'
 import { tickets, users } from './tables'
 
-export function getRelationMap(): Record<string, RelationInfo> {
+export function getRelationMap(): Record<string, TableRelation> {
   return {
     creator: {
       table: users,
