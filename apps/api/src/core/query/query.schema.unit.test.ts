@@ -36,4 +36,12 @@ describe('queryParamsSchema', () => {
     const result = QueryParamsSchema.parse(query)
     expect(result).toEqual({})
   })
+
+  it('should reject non-string dynamic filter values', () => {
+    const query = {
+      status: ['active'],
+    }
+
+    expect(() => QueryParamsSchema.parse(query)).toThrow()
+  })
 })
