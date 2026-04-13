@@ -1,4 +1,4 @@
-import type { ParsedSort } from '../query.schema'
+import type { ParsedSort } from '../types'
 
 export function parseOrder(sort?: string): ParsedSort[] | undefined {
   if (!sort)
@@ -15,7 +15,7 @@ export function parseOrder(sort?: string): ParsedSort[] | undefined {
 
       return {
         field: field.trim(),
-        direction: (order.toLowerCase() === 'desc' ? 'desc' : 'asc'),
+        direction: (order.trim().toLowerCase() === 'desc' ? 'desc' : 'asc'),
       }
     })
     .filter((d): d is ParsedSort => d !== null)

@@ -1,4 +1,4 @@
-import type { ParsedWith, RelationNode } from '../query.schema'
+import type { ParsedWith, RelationNode } from '../types'
 
 export function parseWith(
   query?: string,

@@ -1,4 +1,4 @@
-import type { ParsedColumns } from '../query.schema'
+import type { ParsedColumns } from '../types'
 
 export function parseColumns(selectQuery?: string): ParsedColumns {
   const columns: ParsedColumns = {}

@@ -52,11 +52,15 @@ function parseConditionInfo(
 
 function extractOperation(value: string): { op: OperatorKey, rawValue: string } {
   const separatorIndex = value.indexOf(':')
-  const opKey = separatorIndex !== -1 ? value.slice(0, separatorIndex).toLowerCase() : ''
+  const potentialOp = separatorIndex !== -1 ? value.slice(0, separatorIndex) : value
+  const potentialOpLower = potentialOp.toLowerCase()
 
   const allOperators = [...UNARY_OPERATORS, ...BINARY_OPERATORS]
-  if (allOperators.includes(opKey as OperatorKey)) {
-    return { op: opKey as OperatorKey, rawValue: value.slice(separatorIndex + 1) }
+  const matchedOp = allOperators.find(op => op.toLowerCase() === potentialOpLower)
+
+  if (matchedOp) {
+    const rawValue = separatorIndex !== -1 ? value.slice(separatorIndex + 1) : ''
+    return { op: matchedOp, rawValue }
   }
 
   return { op: 'eq', rawValue: value }
