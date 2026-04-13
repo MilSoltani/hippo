@@ -13,7 +13,6 @@
     "type-check": "vue-tsc --build"
   },
   "dependencies": {
-    "@hippo/api": "*",
     "@tanstack/vue-query": "^5.96.2",
     "hono": "^4.12.10",
     "vue": "^3.5.31",

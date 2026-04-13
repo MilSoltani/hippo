@@ -4,7 +4,6 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "@hippo/api/*": ["../api/src/*"]
     }
   },
   "references": [
