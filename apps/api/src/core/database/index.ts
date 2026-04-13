@@ -1,4 +1,6 @@
 export { type DbType } from './db'
+export * from './query-adapter'
+export type { RelationInfo, TableColumns } from './query-adapter/types'
 export { getRelationMap } from './relation-map'
 export * as relations from './relations'
 export * as tables from './tables'

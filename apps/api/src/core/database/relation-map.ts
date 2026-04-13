@@ -1,7 +1,6 @@
-import type { RelationInfo } from '@api/core/query'
-import { ticketEssentialColumns } from '@api/modules/ticket/ticket.schema'
-import { userEssentialColumns } from '@api/modules/user/user.schema'
+import type { RelationInfo } from './query-adapter/types'
 import { eq } from 'drizzle-orm'
+import { getSelectedColumns } from '../utils/db.util'
 import { tickets, users } from './tables'
 
 export function getRelationMap(): Record<string, RelationInfo> {
@@ -9,22 +8,22 @@ export function getRelationMap(): Record<string, RelationInfo> {
     creator: {
       table: users,
       joinCondition: eq(users.id, tickets.creatorId),
-      essentialColumns: userEssentialColumns,
+      essentialColumns: getSelectedColumns(users, ['id', 'username']),
     },
     agent: {
       table: users,
       joinCondition: eq(users.id, tickets.agentId),
-      essentialColumns: userEssentialColumns,
+      essentialColumns: getSelectedColumns(users, ['id', 'username']),
     },
     createdTickets: {
       table: tickets,
       joinCondition: eq(tickets.creatorId, users.id),
-      essentialColumns: ticketEssentialColumns,
+      essentialColumns: getSelectedColumns(tickets, ['id', 'subject']),
     },
     assignedTickets: {
       table: tickets,
       joinCondition: eq(tickets.agentId, users.id),
-      essentialColumns: ticketEssentialColumns,
+      essentialColumns: getSelectedColumns(tickets, ['id', 'subject']),
     },
   }
 }

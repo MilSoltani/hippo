@@ -1,21 +1,11 @@
-import type { AnyPgTable } from 'drizzle-orm/pg-core'
-import type { DbType } from '../database'
-import type { ColumnName, QueryParams, TableColumns } from './query.schema'
-import { getTableColumns } from 'drizzle-orm'
-import { resolveOrder } from './order/order-resolver'
-import { resolvePagination } from './pagination/pagination-resolver'
-import { resolveColumns } from './select/columns-resolver'
-import { resolveWhere } from './where'
-import { resolveWith } from './with/with-resolver'
+import type { ParsedQuery, QueryParams } from './query.schema'
+import { parseColumns } from './parsers/columns-parser'
+import { parseOrder } from './parsers/order-parser'
+import { parsePagination } from './parsers/pagination-parser'
+import { parseWhere } from './parsers/where-parser'
+import { parseWith } from './parsers/with-parser'
 
-export function parseQuery<T extends AnyPgTable>(
-  db: DbType,
-  table: T,
-  query: QueryParams,
-  skipColumns: ColumnName<T>[] = [],
-): Record<string, any> {
-  const tableColumns: TableColumns = getTableColumns(table)
-
+export function parseQuery(query: QueryParams): ParsedQuery {
   const {
     sort,
     columns,
@@ -25,11 +15,30 @@ export function parseQuery<T extends AnyPgTable>(
     ...filters
   } = query
 
-  return {
-    columns: resolveColumns(tableColumns, skipColumns, columns),
-    where: resolveWhere(db, tableColumns, filters),
-    orderBy: resolveOrder(tableColumns, sort),
-    ...resolvePagination(page, limit),
-    with: resolveWith(withQuery),
+  const result: ParsedQuery = {
+    columns: parseColumns(columns),
+    limit: 0,
+    offset: 0,
   }
+
+  const where = parseWhere(filters)
+  if (where) {
+    result.where = where
+  }
+
+  const orderBy = parseOrder(sort)
+  if (orderBy) {
+    result.orderBy = orderBy
+  }
+
+  const pagination = parsePagination(page, limit)
+  result.limit = pagination.limit
+  result.offset = pagination.offset
+
+  const withResult = parseWith(withQuery)
+  if (withResult) {
+    result.with = withResult
+  }
+
+  return result
 }

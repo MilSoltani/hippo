@@ -1,6 +1,3 @@
-import type { getTableColumns, SQL } from 'drizzle-orm'
-
-import type { AnyPgTable } from 'drizzle-orm/pg-core'
 import { z } from 'zod'
 
 export const QueryParamsSchema = z
@@ -14,12 +11,3 @@ export const QueryParamsSchema = z
   .catchall(z.any())
 
 export type QueryParams = z.infer<typeof QueryParamsSchema>
-
-export type ColumnName<T extends AnyPgTable> = keyof T['_']['columns'] & string
-export type TableColumns = ReturnType<typeof getTableColumns>
-
-export interface RelationInfo {
-  table: AnyPgTable
-  joinCondition: SQL
-  essentialColumns: TableColumns
-}

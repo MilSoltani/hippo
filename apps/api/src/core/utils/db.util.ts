@@ -1,5 +1,5 @@
 import type { PgTable } from 'drizzle-orm/pg-core'
-import type { TableColumns } from '../query'
+import type { TableColumns } from '../database'
 import { getTableColumns } from 'drizzle-orm'
 
 export function getSelectedColumns(table: PgTable, selectedColumns: Array<string>): TableColumns {
